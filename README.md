@@ -58,7 +58,7 @@ A prebuilt Linux system use UEFI and f2fs for RaspberryPi 3B, RaspberryPi 3B+, R
 * 第三分区：F2FS根目录系统分区
 
 * 默认用户名：pi
-* 默认密码：raspberrypi.club
+* 默认密码：raspberrypi
 
 ### 我们提倡自行构建系统，这样你不仅知道本系统的所有概况，而且还能感受树莓派的乐趣,本系统完全开源，所有构建代码已公布，进行了详细的注释，本人代码写的不好请原谅,后期我们也会在树莓派俱乐部发表关于系统构建的文章，让每一个人都能体验树莓派的乐趣。
 
@@ -68,7 +68,7 @@ A prebuilt Linux system use UEFI and f2fs for RaspberryPi 3B, RaspberryPi 3B+, R
 
 [树莓派俱乐部相应地址跳转](https://raspberrypi.club/341.html)
 
-<p align="center">2018-2020 树莓派俱乐部 版权所有</p>
+<p align="center">2018-2020 chainsx.cn</p>
 
 
 
