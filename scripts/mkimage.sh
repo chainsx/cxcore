@@ -35,11 +35,14 @@ EOF
 # 第二分区（64MB）：存放内核
 # 第三分区（剩余空间）：根目录
 
-LOOPIMGF=$(ls /dev/mapper/ | grep 1)
-LOOPIMGS=$(ls /dev/mapper/ | grep 2)
-LOOPIMGT=$(ls /dev/mapper/ | grep 3)
+LOOPIMGF=$(ls /dev | grep loop0)
+LOOPIMGS=$(ls /dev | grep loop1)
+LOOPIMGT=$(ls /dev | grep loop2)
 
-kpartx -av $IMGNAME
+losetup --offset=1048576 --sizelimit=269484032 debian.img /dev/$LOOPIMGF
+losetup --offset=269484544‬ --sizelimit=336593408‬ debian.img /dev/$LOOPIMGS
+losetup --offset=336593920‬ --sizelimit=1572863488 debian.img /dev/$LOOPIMGT
+
 
 # 映射虚拟文件系统
 
@@ -53,7 +56,9 @@ mkfs.f2fs -l ROOTFS /dev/mapper/$LOOPIMGT
 
 sync
 
-kpartx -d $IMGNAME.img
+losetup --detach /dev/loop0
+losetup --detach /dev/loop1
+losetup --detach /dev/loop2
 
 # 删除映射
 
