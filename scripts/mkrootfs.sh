@@ -151,6 +151,19 @@ rm -rf tmp
 # 获取一些附带设备的驱动
 
 cat /dev/null > $ROOTFS/etc/fstab
-cat files/fstab >> $ROOTFS/etc/fstab
+
+cat <<EOF >> $ROOTFS/etc/fstab
+proc            /proc           proc    defaults          0       0
+/dev/mmcblk0p2  /boot           ext4    defaults          0       0
+/dev/mmcblk0p1  /boot/efi       vfat    defaults          0       2
+/dev/mmcblk0p3  /               f2fs    defaults,noatime  0       1
+# a swapfile is not a swap partition, no line here
+#   use  dphys-swapfile swap[on|off]  for that
+tmpfs /tmp tmpfs defaults,noatime,nosuid,size=100m 0 0
+tmpfs /var/tmp tmpfs defaults,noatime,nosuid,size=30m 0 0
+tmpfs /var/log tmpfs defaults,noatime,nosuid,mode=0755,size=100m 0 0
+tmpfs /var/run tmpfs defaults,noatime,nosuid,mode=0755,size=2m 0 0
+tmpfs /var/spool/mqueue tmpfs defaults,noatime,nosuid,mode=0700,gid=12,size=30m 0 0
+EOF
 
 # 编辑分区信息
