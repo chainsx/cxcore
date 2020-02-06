@@ -6,11 +6,11 @@ mkdir initroot
 # 从而实现文件系统的初始化和扩容
 # 使用buildroot来编译
 
-BRANCH=master
+#BRANCH=master
 #BRACH=2020.02.x
 # 后期可能需要手动切换分支为2020.02.x
 
-git clone --depth=1 -b BRANCH https://github.com/buildroot/buildroot
+#git clone --depth=1 -b BRANCH https://github.com/buildroot/buildroot
 cp files/config buildroot/.config
 cd buildroot && make
 cd ..
