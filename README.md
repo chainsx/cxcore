@@ -1,8 +1,8 @@
 # cxcore
-A prebuilt Linux system use UEFI and f2fs for RaspberryPi 3B, RaspberryPi 3B+, RaspberryPi 4B
+A prebuilt Linux system use UEFI and f2fs for RaspberryPi all 64-Bit CPU serials.
 
 # 使用UEFI启动的树莓派64位系统镜像
-## 本系统完全开源，github是用来发布代码的地方！
+
 
 ![image1](https://res.raspberrypi.club/wp-content/uploads/2020/01/%E6%89%B9%E6%B3%A8-2020-01-29-172141.png)
 
@@ -23,7 +23,7 @@ A prebuilt Linux system use UEFI and f2fs for RaspberryPi 3B, RaspberryPi 3B+, R
 
 ## 关于GRUB：
 
-#### 本系统使用了UEFI，并且引入了grub启动，这样就能实现多系统，而且可以在开机时进行选择，从而替代了像berryboot等使用initrd来在启动时先启动一个轻级系统来进行系统的选择然后根据选择来更改cmdline.txt来启动系统的情况（并没有说berryboot哪里不好，berryboot是一个优秀的开源项目，感谢berryboot的卓越贡献后来才有了今天的noobs）。
+#### 本系统使用了UEFI，并且引入了grub启动，这样就能实现多系统，而且可以在开机时进行选择，从而替代了像berryboot等使用initrd来在启动时先启动一个轻级系统来进行系统的选择然后根据选择来更改cmdline.txt来启动系统的情况（并没有说berryboot哪里不好，berryboot是一个优秀的开源项目，感谢berryboot的卓越开源贡献）。
 
 ## 关于F2FS
 
@@ -39,7 +39,7 @@ A prebuilt Linux system use UEFI and f2fs for RaspberryPi 3B, RaspberryPi 3B+, R
 
 ## 第一次使用时的前置系统：
 
-#### 一般来说，树莓派系统第一次使用时都会进行储存空间的扩容，而很多系统都是直接进入主系统进行扩容操作，然后在重启，我们使用了noobs的引导程序，基于buildroot自编译了一个用于初始化的前置系统，在前置系统中我们会完成根目录的初始化，例如扩容等操作，都直接一次完成，因为前置系统是划分了一个16M的ramdisk，所以对sd卡的操作是非常安全和有效的。（在此感谢buildroot和noobs的开源精神）
+#### 一般来说，树莓派系统第一次使用时都会进行储存空间的扩容，而很多系统都是直接进入主系统进行扩容操作，然后再重启，本系统使用了noobs的引导程序，基于buildroot自编译了一个用于初始化的前置系统，在前置系统中我们会完成根目录的初始化，例如扩容等操作，都直接一次完成，作为完成这些操作的前置系统划分了一个16M的ramdisk，所以对sd卡的操作是非常安全和有效的。（在此感谢buildroot和noobs的开源精神）
 
 ## 使用树莓派官方内核：
 
@@ -62,9 +62,9 @@ A prebuilt Linux system use UEFI and f2fs for RaspberryPi 3B, RaspberryPi 3B+, R
 
 ### 我们提倡自行构建系统，这样你不仅知道本系统的所有概况，而且还能感受树莓派的乐趣,本系统完全开源，所有构建代码已公布，进行了详细的注释，本人代码写的不好请原谅,后期我们也会在树莓派俱乐部发表关于系统构建的文章，让每一个人都能体验树莓派的乐趣。
 
-### github是开源的地方，此处不提供下载，预构建公测版本下载请转至树莓派俱乐部，有问题请在相关评论区留言。
+### github是开源的地方，此处不提供系统下载，预构建公测版本下载请转至树莓派俱乐部，有问题请在相关评论区留言。
 
-#### 最后chainsx感谢各位在高三时本人没能顾及更新系统的谅解，chainsx也通过高考向梦想更进了一步，也感谢大家的支持，让我知道了理想的力量。
+#### 最后chainsx感谢各位,在高三时本人没能顾及更新系统，chainsx也通过高考向梦想更进了一步，也感谢大家的支持，让我知道了理想的力量。
 
 [树莓派俱乐部相应地址跳转](https://raspberrypi.club/341.html)
 
