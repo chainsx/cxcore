@@ -34,7 +34,7 @@ LC_ALL=C LANGUAGE=C LANG=C chroot $ROOTFS apt-get install -y sudo ssh net-tools 
 
 # 换源，默认为清华源
 
-sed -i 's/deb.debian.org/mirrors4.tuna.tsinghua.edu.cn/' /root/etc/apt/sources.list
+sed -i 's/deb.debian.org/mirrors4.tuna.tsinghua.edu.cn/' root/etc/apt/sources.list
 
 # 使用chroot来安装所需软件包
 
