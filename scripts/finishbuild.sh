@@ -1,20 +1,28 @@
 #!/bin/sh
 
 IMAGE=debian.img
-IMAGEBLOCK=/dev/mapper/loop0p
+IMGBLOCK=/dev/loop
 BOOTPATH=root/boot
 TARGETBOOT=tmp/firstblock
 
-kpartx -av $IMAGE
+LOOPIMGF=$(ls /dev | grep loop0)
+LOOPIMGS=$(ls /dev | grep loop1)
+LOOPIMGT=$(ls /dev | grep loop2)
+
+losetup --offset=1048576 --sizelimit=269484032 $LOOPIMGF debian.img
+losetup --offset=269484544 --sizelimit=336593408 $LOOPIMGS debian.img
+losetup --offset=336593920 --sizelimit=1572863488 $LOOPIMGT debian.img
+
+mkfs.ext4 -L KERNEL /dev/loop1
 
 mkdir tmp
 mkdir tmp/firstblock
 mkdir tmp/secondblock
 mkdir tmp/thirdblock
 
-mount $IMAGEBLOCK'1' tmp/firstblock
-mount $IMAGEBLOCK'2' tmp/secondblock
-mount $IMAGEBLOCK'3' tmp/thirdblock
+mount $IMGBLOCK'0' tmp/firstblock
+mount $IMGBLOCK'1' tmp/secondblock
+mount $IMGBLOCK'2' tmp/thirdblock
 
 # 挂载loop设备
 
@@ -50,5 +58,12 @@ rm -rf tmp/thirdblock/lib/firmware/.git
 # 移动根目录
 
 umount tmp/thirdblock
+
+sync
+
+losetup --detach /dev/loop0
+losetup --detach /dev/loop1
+losetup --detach /dev/loop2
+
 
 echo "finish"

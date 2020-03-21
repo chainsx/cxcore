@@ -14,7 +14,7 @@ fi
 # 判断主机架构，从而判断是否需要安装qemu
 
 ROOTFS=root
-SOFTADDR=http://mirrors.tuna.tsinghua.edu.cn/debian
+SOFTADDR=http://mirrors4.tuna.tsinghua.edu.cn/debian
 
 sudo apt install debootstrap debian-keyring
 mkdir $ROOTFS
@@ -31,6 +31,10 @@ fi
 LC_ALL=C LANGUAGE=C LANG=C chroot ./$ROOTFS /debootstrap/debootstrap --second-stage
 LC_ALL=C LANGUAGE=C LANG=C chroot . dpkg --configure -a
 LC_ALL=C LANGUAGE=C LANG=C chroot $ROOTFS apt-get install -y sudo ssh net-tools ethtool wireless-tools network-manager iputils-ping rsyslog alsa-utils bash-completion gnupg busybox kmod --no-install-recommends
+
+# 换源，默认为清华源
+
+sed -i 's/deb.debian.org/mirrors4.tuna.tsinghua.edu.cn/' /root/etc/apt/sources.list
 
 # 使用chroot来安装所需软件包
 
@@ -81,19 +85,19 @@ cp files/010_pi-nopassword etc/sudoers.d
 mkdir kernel
 mkdir tmp
 
-wget -O kernel/firmware-bin.deb https://mirrors.tuna.tsinghua.edu.cn/raspberrypi/pool/main/r/raspberrypi-firmware/libraspberrypi-bin_1.20190925-2_armhf.deb
+wget -O kernel/firmware-bin.deb https://mirrors4.tuna.tsinghua.edu.cn/raspberrypi/pool/main/r/raspberrypi-firmware/libraspberrypi-bin_1.20190925-2_armhf.deb
 echo 'Installing to root ....'
 sudo dpkg -x kernel/firmware-bin.deb tmp
 cp -rfp tmp/* $ROOTFS
 rm -rf tmp/*
 
-wget -O kernel/firmware-dev.deb https://mirrors.tuna.tsinghua.edu.cn/raspberrypi/pool/main/r/raspberrypi-firmware/libraspberrypi-dev_1.20190925-2_armhf.deb
+wget -O kernel/firmware-dev.deb https://mirrors4.tuna.tsinghua.edu.cn/raspberrypi/pool/main/r/raspberrypi-firmware/libraspberrypi-dev_1.20190925-2_armhf.deb
 echo 'Installing to root ....'
 sudo dpkg -x kernel/firmware-dev.deb tmp
 cp -rfp tmp/* $ROOTFS
 rm -rf tmp/*
 
-wget -O kernel/libraspberrypi0.deb https://mirrors.tuna.tsinghua.edu.cn/raspberrypi/pool/main/r/raspberrypi-firmware/libraspberrypi0_1.20190925-2_armhf.deb
+wget -O kernel/libraspberrypi0.deb https://mirrors4.tuna.tsinghua.edu.cn/raspberrypi/pool/main/r/raspberrypi-firmware/libraspberrypi0_1.20190925-2_armhf.deb
 echo 'Installing to root ....'
 sudo dpkg -x kernel/libraspberrypi0.deb tmp
 cp -rfp tmp/lib/* $ROOTFS/lib
@@ -101,13 +105,13 @@ rm -rf tmp/lib
 cp -rfp tmp/* $ROOTFS
 rm -rf tmp/*
 
-wget -O kernel/bootloader.deb https://mirrors.tuna.tsinghua.edu.cn/raspberrypi/pool/main/r/raspberrypi-firmware/raspberrypi-bootloader_1.20190925-2_armhf.deb
+wget -O kernel/bootloader.deb https://mirrors4.tuna.tsinghua.edu.cn/raspberrypi/pool/main/r/raspberrypi-firmware/raspberrypi-bootloader_1.20190925-2_armhf.deb
 echo 'Installing to root ....'
 sudo dpkg -x kernel/bootloader.deb tmp
 cp -rfp tmp/* $ROOTFS
 rm -rf tmp/*
 
-wget -O kernel/kernel.deb https://mirrors.tuna.tsinghua.edu.cn/raspberrypi/pool/main/r/raspberrypi-firmware/raspberrypi-kernel_1.20190925-2_armhf.deb
+wget -O kernel/kernel.deb https://mirrors4.tuna.tsinghua.edu.cn/raspberrypi/pool/main/r/raspberrypi-firmware/raspberrypi-kernel_1.20190925-2_armhf.deb
 echo 'Installing to root ....'
 sudo dpkg -x kernel/kernel.deb tmp
 cp -rfp tmp/lib/* $ROOTFS/lib
@@ -119,7 +123,7 @@ rm -rf tmp/*
 
 mkdir kernel-headers
 
-wget -O kernel-headers/headers.deb https://mirrors.tuna.tsinghua.edu.cn/raspberrypi/pool/main/r/raspberrypi-firmware/raspberrypi-kernel-headers_1.20190925-2_armhf.deb
+wget -O kernel-headers/headers.deb https://mirrors4.tuna.tsinghua.edu.cn/raspberrypi/pool/main/r/raspberrypi-firmware/raspberrypi-kernel-headers_1.20190925-2_armhf.deb
 echo 'Installing to root ....'
 sudo dpkg -x kernel-headers/headers.deb tmp
 cp -rfp tmp/lib/* $ROOTFS/lib

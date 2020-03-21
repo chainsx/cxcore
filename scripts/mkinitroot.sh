@@ -11,17 +11,18 @@ mkdir initroot
 # 后期可能需要手动切换分支为2020.02.x
 
 #git clone --depth=1 -b BRANCH https://github.com/buildroot/buildroot
-cp files/config buildroot/.config
-cd buildroot && make
+#cp files/config buildroot/.config
+#cd buildroot && make
+#cd ..
+
+#cp buildroot/output/images/rootfs.tar initroot
+#rm -rf buildroot
+cp files/rootfs.tar.gz initroot
+cd initroot && tar -zxvf rootfs.tar.gz
+rm rootfs.tar.gz
 cd ..
 
-cp buildroot/output/images/rootfs.tar initroot
-rm -rf buildroot
-cd initroot && tar -xvf rootfs.tar
-rm rootfs.tar
-cd ..
-
-cp files/S99flash initroot/etc/init.d
+#cp files/S99flash initroot/etc/init.d
 
 cat <<EOF >>initroot/etc/init.d/S99flash
 #!/bin/sh
@@ -76,11 +77,12 @@ mksquashfs initroot recovery.rfs
 
 rm -rf initroot
 
-NOOBSADDR=https://mirrors.tuna.tsinghua.edu.cn/raspbian-images/NOOBS_lite/images/NOOBS_lite-2019-07-12/NOOBS_lite_v3_2.zip
+NOOBSADDR=https://mirrors4.tuna.tsinghua.edu.cn/raspbian-images/NOOBS_lite/images/NOOBS_lite-2019-07-12/NOOBS_lite_v3_2.zip
 
 mkdir noobs
 wget -O noobs/noobs.zip $NOOBSADDR
 cd noobs
+unzip noobs.zip
 rm *zip
 rm *rfs
 rm *txt
