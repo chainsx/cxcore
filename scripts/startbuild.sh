@@ -1,17 +1,28 @@
 #!/bin/sh
 sh scripts/mkrootfs.sh
-ROOTCHECK=$(ls | grep root)
-ROOTCHECKTARGET=root
-if [ "$ROOTCHECK" = "$ROOTCHECKTARGET" ];then
-	sh scripts/mkimage.sh
+if [ "$(ls | grep rootfs)" != "rootfs" ];then
+echo "Build rootfs success"
 else
-	exit
+sh scripts/clean.sh
+exit
 fi
-IMGCHECK=$(ls | grep debian.img)
-IMGCHECKTARGET=debian.img
-if [ "$IMGCHECK" = "$IMGCHECKTARGET" ];then
-	sh scripts/mkinitroot.sh
+sh scripts/mkimage.sh
+if [ "$(ls | grep debian.img)" != "debian.img" ];then
+echo "dd image success"
 else
-	exit
+sh scripts/clean.sh
+exit
 fi
-sh scripts/finishbuild.sh
+sh scripts/initrootfs.sh
+if [ "$(ls | grep noobs)" != "noobs" ];then
+echo "Build initrootfs success"
+else
+sh scripts/clean.sh
+exit
+fi
+sh scripts/move_partfile.sh
+sh scripts/mkpartition.sh
+sh scripts/dd_partition.sh
+
+echo "build image success"
+echo "Done"

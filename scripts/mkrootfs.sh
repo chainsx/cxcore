@@ -2,6 +2,13 @@
 
 ARCH=$(arch)
 TARGET=aarch64
+ROOTFS=root
+SOFTADDR=http://mirrors4.tuna.tsinghua.edu.cn/debian
+MIRROR=http://mirrors4.tuna.tsinghua.edu.cn
+FIRMWAREPATH=raspberrypi/pool/main/r/raspberrypi-firmware
+FIRMWARE_NONFREE_PATH=raspbian/raspbian/pool/non-free/f/firmware-nonfree
+KERNEL_VERSION=20200212-1
+FIRMWARE_NONFREE_VERSION=20190717
 
 echo You are running this scipt on a $ARCH mechine....
 
@@ -12,9 +19,6 @@ echo "You are running this script on a aarch64 mechine, progress...."
 fi
 
 # 判断主机架构，从而判断是否需要安装qemu
-
-ROOTFS=root
-SOFTADDR=http://mirrors4.tuna.tsinghua.edu.cn/debian
 
 sudo apt install debootstrap debian-keyring
 mkdir $ROOTFS
@@ -85,19 +89,20 @@ cp files/010_pi-nopassword etc/sudoers.d
 mkdir kernel
 mkdir tmp
 
-wget -O kernel/firmware-bin.deb https://mirrors4.tuna.tsinghua.edu.cn/raspberrypi/pool/main/r/raspberrypi-firmware/libraspberrypi-bin_1.20190925-2_armhf.deb
+wget -O kernel/firmware-bin.deb $MIRROR/$FIRMWAREPATH/libraspberrypi-bin_1.$KERNEL_VERSION_armhf.deb
 echo 'Installing to root ....'
 sudo dpkg -x kernel/firmware-bin.deb tmp
 cp -rfp tmp/* $ROOTFS
 rm -rf tmp/*
 
-wget -O kernel/firmware-dev.deb https://mirrors4.tuna.tsinghua.edu.cn/raspberrypi/pool/main/r/raspberrypi-firmware/libraspberrypi-dev_1.20190925-2_armhf.deb
+wget -O kernel/firmware-dev.deb $MIRROR/$FIRMWAREPATH/libraspberrypi-dev_1.$KERNEL_VERSION_armhf.deb
+
 echo 'Installing to root ....'
 sudo dpkg -x kernel/firmware-dev.deb tmp
 cp -rfp tmp/* $ROOTFS
 rm -rf tmp/*
 
-wget -O kernel/libraspberrypi0.deb https://mirrors4.tuna.tsinghua.edu.cn/raspberrypi/pool/main/r/raspberrypi-firmware/libraspberrypi0_1.20190925-2_armhf.deb
+wget -O kernel/libraspberrypi0.deb $MIRROR/$FIRMWAREPATH/libraspberrypi0_1.$KERNEL_VERSION_armhf.deb
 echo 'Installing to root ....'
 sudo dpkg -x kernel/libraspberrypi0.deb tmp
 cp -rfp tmp/lib/* $ROOTFS/lib
@@ -105,13 +110,13 @@ rm -rf tmp/lib
 cp -rfp tmp/* $ROOTFS
 rm -rf tmp/*
 
-wget -O kernel/bootloader.deb https://mirrors4.tuna.tsinghua.edu.cn/raspberrypi/pool/main/r/raspberrypi-firmware/raspberrypi-bootloader_1.20190925-2_armhf.deb
+wget -O kernel/bootloader.deb $MIRROR/$FIRMWAREPATH/raspberrypi-bootloader_1.$KERNEL_VERSION_armhf.deb
 echo 'Installing to root ....'
 sudo dpkg -x kernel/bootloader.deb tmp
 cp -rfp tmp/* $ROOTFS
 rm -rf tmp/*
 
-wget -O kernel/kernel.deb https://mirrors4.tuna.tsinghua.edu.cn/raspberrypi/pool/main/r/raspberrypi-firmware/raspberrypi-kernel_1.20190925-2_armhf.deb
+wget -O kernel/kernel.deb $MIRROR/$FIRMWAREPATH/raspberrypi-kernel_1.$KERNEL_VERSION_armhf.deb
 echo 'Installing to root ....'
 sudo dpkg -x kernel/kernel.deb tmp
 cp -rfp tmp/lib/* $ROOTFS/lib
@@ -123,7 +128,7 @@ rm -rf tmp/*
 
 mkdir kernel-headers
 
-wget -O kernel-headers/headers.deb https://mirrors4.tuna.tsinghua.edu.cn/raspberrypi/pool/main/r/raspberrypi-firmware/raspberrypi-kernel-headers_1.20190925-2_armhf.deb
+wget -O kernel-headers/headers.deb $MIRROR/$FIRMWAREPATH/raspberrypi-kernel-headers_1.$KERNEL_VERSION_armhf.deb
 echo 'Installing to root ....'
 sudo dpkg -x kernel-headers/headers.deb tmp
 cp -rfp tmp/lib/* $ROOTFS/lib
@@ -150,10 +155,12 @@ rm -rf tmp
 # 添加开机配置，启动命令
 # 使用EFI引导则跳过这一步
 
-#git clone --depth=1 https://github.com/RPi-Distro/firmware-nonfree
-#rm -rf firmware-nonfree/.git
-#mv firmware-nonfree firmware
-#mv firmware $ROOTFS/lib
+wget $MIRROR/$FIRMWARE_NONFREE_PATH/firmware-nonfree_$FIRMWARE_NONFREE_VERSION.orig.tar.xz
+unxz firmware-nonfree_$FIRMWARE_NONFREE_VERSION.orig.tar.xz
+tar -xvf firmware-nonfree_$FIRMWARE_NONFREE_VERSION.orig.tar
+mv firmware-nonfree-$FIRMWARE_NONFREE_VERSION rootfs/lib
+
+
 # 获取一些附带设备的驱动
 
 cat /dev/null > $ROOTFS/etc/fstab
