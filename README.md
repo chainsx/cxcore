@@ -23,7 +23,7 @@ A prebuilt Linux system use UEFI and f2fs for RaspberryPi all 64-Bit CPU serials
 ### github是开源的地方，此处不提供系统下载，预构建公测版本下载请转至树莓派俱乐部，有问题请在相关评论区留言。
 
 
-[树莓派俱乐部相应地址跳转](https://raspberrypi.club/341.html)
+[树莓派俱乐部相应地址跳转(此版本不带桌面环境)](https://raspberrypi.club/341.html)
 
 <p align="center">2018-2020 chainsx.cn</p>
 
