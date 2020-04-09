@@ -4,6 +4,7 @@ A prebuilt Linux system use UEFI and f2fs for RaspberryPi all 64-Bit CPU serials
 # 使用UEFI启动的树莓派64位系统镜像
 
 ![image1](https://raw.githubusercontent.com/chainsx/PIXEL64-RPI/master/img/2020020512003372.png)
+#### 64位pixel桌面环境
 
 ## [系统特性](https://github.com/chainsx/cxcore/blob/master/doc/feature.md)
 ## [64位pixel桌面环境（测试）](https://github.com/chainsx/cxcore/blob/master/doc/about-pixeldesktop.md)
