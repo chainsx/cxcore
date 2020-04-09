@@ -24,3 +24,5 @@ apt-get install raspberrypi-ui-mods
 ```
 
 最后删除在/usr/share/X11/目录下的不兼容的配置文件。
+
+[预构建版本](https://raspberrypi.club/367.html)
