@@ -40,3 +40,5 @@
 #### 我们可以看到官方对cpuinfo的补足
 
 *******
+
+<p align="center">2018-2020 chainsx.cn</p>
