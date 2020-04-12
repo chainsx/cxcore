@@ -23,6 +23,14 @@ A prebuilt Linux system use UEFI and f2fs for RaspberryPi all 64-Bit CPU serials
 
 ### github是开源的地方，此处不提供系统下载，预构建公测版本下载请转至树莓派俱乐部，有问题请在相关评论区留言。
 
+## 自行构建：
+
+`sh build.sh`
+
+#### 建议使用ubuntu-18.04，x86_64进行构建。
+### 注意：构建主机需要支持f2fs文件系统。
+#### （如何查看支不支持f2fs？ `cat /proc/filesystems | grep f2fs` 输出f2fs即为支持）
+
 
 [树莓派俱乐部相应地址跳转(此版本不带桌面环境)](https://raspberrypi.club/341.html)
 

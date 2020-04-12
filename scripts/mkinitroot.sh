@@ -6,6 +6,7 @@ mkdir initroot
 # 从而实现文件系统的初始化和扩容
 # 使用buildroot来编译
 
+sudo apt-get install squashfs-tools
 #BRANCH=master
 #BRACH=2020.02.x
 # 后期可能需要手动切换分支为2020.02.x

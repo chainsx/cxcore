@@ -7,7 +7,7 @@ SOFTADDR=http://mirrors4.tuna.tsinghua.edu.cn/debian
 MIRROR=http://mirrors4.tuna.tsinghua.edu.cn
 FIRMWAREPATH=raspberrypi/pool/main/r/raspberrypi-firmware
 FIRMWARE_NONFREE_PATH=raspbian/raspbian/pool/non-free/f/firmware-nonfree
-KERNEL_VERSION=20200212-1
+KERNEL_VERSION=20200212-1_armhf
 FIRMWARE_NONFREE_VERSION=20190717
 
 echo You are running this scipt on a $ARCH mechine....
@@ -34,11 +34,15 @@ fi
 
 LC_ALL=C LANGUAGE=C LANG=C chroot ./$ROOTFS /debootstrap/debootstrap --second-stage
 LC_ALL=C LANGUAGE=C LANG=C chroot . dpkg --configure -a
+#sed -i 's/deb.debian.org/mirrors4.tuna.tsinghua.edu.cn/' root/etc/apt/sources.list
+cat /dev/null > root/etc/apt/sources.list
+echo "deb http://mirrors4.tuna.tsinghua.edu.cn/debian buster main" >> root/etc/apt/sources.list
+
 LC_ALL=C LANGUAGE=C LANG=C chroot $ROOTFS apt-get install -y sudo ssh net-tools ethtool wireless-tools network-manager iputils-ping rsyslog alsa-utils bash-completion gnupg busybox kmod --no-install-recommends
 
 # 换源，默认为清华源
 
-sed -i 's/deb.debian.org/mirrors4.tuna.tsinghua.edu.cn/' root/etc/apt/sources.list
+#sed -i 's/deb.debian.org/mirrors4.tuna.tsinghua.edu.cn/' root/etc/apt/sources.list
 
 # 使用chroot来安装所需软件包
 
@@ -58,6 +62,7 @@ EOF
 # 密码：raspberry
 
 LC_ALL=C LANGUAGE=C LANG=C chroot $ROOTFS dpkg --add-architecture armhf
+LC_ALL=C LANGUAGE=C LANG=C chroot $ROOTFS apt-get update
 LC_ALL=C LANGUAGE=C LANG=C chroot $ROOTFS apt-get install libc6:armhf
 
 # 开启32位兼容
@@ -82,27 +87,27 @@ echo 'raspberrypi' >> $ROOTFS/etc/hostname
 
 # 一遍是你构建使用的主机的hostname，看情况自行修改
 
-cp files/010_pi-nopassword etc/sudoers.d
+#cp files/010_pi-nopassword etc/sudoers.d
 
 # 用户pi免密码执行root命令
 
 mkdir kernel
 mkdir tmp
 
-wget -O kernel/firmware-bin.deb $MIRROR/$FIRMWAREPATH/libraspberrypi-bin_1.$KERNEL_VERSION_armhf.deb
+wget -O kernel/firmware-bin.deb $MIRROR/$FIRMWAREPATH/libraspberrypi-bin_1.$KERNEL_VERSION.deb
 echo 'Installing to root ....'
 sudo dpkg -x kernel/firmware-bin.deb tmp
 cp -rfp tmp/* $ROOTFS
 rm -rf tmp/*
 
-wget -O kernel/firmware-dev.deb $MIRROR/$FIRMWAREPATH/libraspberrypi-dev_1.$KERNEL_VERSION_armhf.deb
+wget -O kernel/firmware-dev.deb $MIRROR/$FIRMWAREPATH/libraspberrypi-dev_1.$KERNEL_VERSION.deb
 
 echo 'Installing to root ....'
 sudo dpkg -x kernel/firmware-dev.deb tmp
 cp -rfp tmp/* $ROOTFS
 rm -rf tmp/*
 
-wget -O kernel/libraspberrypi0.deb $MIRROR/$FIRMWAREPATH/libraspberrypi0_1.$KERNEL_VERSION_armhf.deb
+wget -O kernel/libraspberrypi0.deb $MIRROR/$FIRMWAREPATH/libraspberrypi0_1.$KERNEL_VERSION.deb
 echo 'Installing to root ....'
 sudo dpkg -x kernel/libraspberrypi0.deb tmp
 cp -rfp tmp/lib/* $ROOTFS/lib
@@ -110,13 +115,13 @@ rm -rf tmp/lib
 cp -rfp tmp/* $ROOTFS
 rm -rf tmp/*
 
-wget -O kernel/bootloader.deb $MIRROR/$FIRMWAREPATH/raspberrypi-bootloader_1.$KERNEL_VERSION_armhf.deb
+wget -O kernel/bootloader.deb $MIRROR/$FIRMWAREPATH/raspberrypi-bootloader_1.$KERNEL_VERSION.deb
 echo 'Installing to root ....'
 sudo dpkg -x kernel/bootloader.deb tmp
 cp -rfp tmp/* $ROOTFS
 rm -rf tmp/*
 
-wget -O kernel/kernel.deb $MIRROR/$FIRMWAREPATH/raspberrypi-kernel_1.$KERNEL_VERSION_armhf.deb
+wget -O kernel/kernel.deb $MIRROR/$FIRMWAREPATH/raspberrypi-kernel_1.$KERNEL_VERSION.deb
 echo 'Installing to root ....'
 sudo dpkg -x kernel/kernel.deb tmp
 cp -rfp tmp/lib/* $ROOTFS/lib
@@ -128,7 +133,7 @@ rm -rf tmp/*
 
 mkdir kernel-headers
 
-wget -O kernel-headers/headers.deb $MIRROR/$FIRMWAREPATH/raspberrypi-kernel-headers_1.$KERNEL_VERSION_armhf.deb
+wget -O kernel-headers/headers.deb $MIRROR/$FIRMWAREPATH/raspberrypi-kernel-headers_1.$KERNEL_VERSION.deb
 echo 'Installing to root ....'
 sudo dpkg -x kernel-headers/headers.deb tmp
 cp -rfp tmp/lib/* $ROOTFS/lib
@@ -158,8 +163,8 @@ rm -rf tmp
 wget $MIRROR/$FIRMWARE_NONFREE_PATH/firmware-nonfree_$FIRMWARE_NONFREE_VERSION.orig.tar.xz
 unxz firmware-nonfree_$FIRMWARE_NONFREE_VERSION.orig.tar.xz
 tar -xvf firmware-nonfree_$FIRMWARE_NONFREE_VERSION.orig.tar
-mv firmware-nonfree-$FIRMWARE_NONFREE_VERSION rootfs/lib
-
+mv firmware-nonfree-$FIRMWARE_NONFREE_VERSION root/lib/firmware
+rm firmware-nonfree_$FIRMWARE_NONFREE_VERSION.orig.tar
 
 # 获取一些附带设备的驱动
 

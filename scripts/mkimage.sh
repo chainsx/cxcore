@@ -3,7 +3,7 @@
 apt-get install f2fs-tools
 
 IMGNAME=debian.img
-IMAGECOUNT=1500
+IMAGECOUNT=2500
 
 dd if=/dev/zero of=$IMGNAME bs=1M count=$IMAGECOUNT status=progress
 
@@ -28,7 +28,7 @@ n
 p
 3
 657410
-3071999
+5119999
 w
 EOF
 
