@@ -33,12 +33,15 @@ fi
 # 判断主机架构，从而判断是否需要qemu来进行chroot
 
 LC_ALL=C LANGUAGE=C LANG=C chroot ./$ROOTFS /debootstrap/debootstrap --second-stage
-LC_ALL=C LANGUAGE=C LANG=C chroot . dpkg --configure -a
+LC_ALL=C LANGUAGE=C LANG=C chroot ./$ROOTFS sudo dpkg --configure -a
+
 #sed -i 's/deb.debian.org/mirrors4.tuna.tsinghua.edu.cn/' root/etc/apt/sources.list
+
 cat /dev/null > root/etc/apt/sources.list
 echo "deb http://mirrors4.tuna.tsinghua.edu.cn/debian buster main" >> root/etc/apt/sources.list
 
-LC_ALL=C LANGUAGE=C LANG=C chroot $ROOTFS apt-get install -y sudo ssh net-tools ethtool wireless-tools network-manager iputils-ping rsyslog alsa-utils gnupg busybox kmod --no-install-recommends
+LC_ALL=C LANGUAGE=C LANG=C chroot ./$ROOTFS apt-get update
+LC_ALL=C LANGUAGE=C LANG=C chroot ./$ROOTFS apt-get install -y sudo ssh net-tools ethtool wireless-tools network-manager iputils-ping rsyslog alsa-utils busybox kmod --no-install-recommends
 
 # 换源，默认为清华源
 
