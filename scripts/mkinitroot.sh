@@ -25,7 +25,7 @@ cd ..
 
 #cp files/S99flash initroot/etc/init.d
 
-cat <<EOF >>initroot/etc/init.d/S99flash
+cat <<EOF >> initroot/etc/init.d/S99flash
 #!/bin/sh
 BLKDEV=/dev/mmcblk0
 ROOTPART_SEQ=3

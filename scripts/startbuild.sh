@@ -13,7 +13,9 @@ sh scripts/mkimage.sh
 #sh scripts/clean.sh
 #exit
 #fi
-sh scripts/initrootfs.sh
+
+sh scripts/mkinitroot.sh
+
 #if [ "$(ls | grep noobs)" != "noobs" ];then
 #echo "Build initrootfs success"
 #else

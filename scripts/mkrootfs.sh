@@ -33,7 +33,7 @@ fi
 # 判断主机架构，从而判断是否需要qemu来进行chroot
 
 LC_ALL=C LANGUAGE=C LANG=C chroot ./$ROOTFS /debootstrap/debootstrap --second-stage
-LC_ALL=C LANGUAGE=C LANG=C chroot ./$ROOTFS sudo dpkg --configure -a
+LC_ALL=C LANGUAGE=C LANG=C chroot ./$ROOTFS dpkg --configure -a
 
 #sed -i 's/deb.debian.org/mirrors4.tuna.tsinghua.edu.cn/' root/etc/apt/sources.list
 

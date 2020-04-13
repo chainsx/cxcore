@@ -1,9 +1,9 @@
 #!/bin/sh
-LOOPIMGF=$(ls /dev | grep loop0)
-LOOPIMGS=$(ls /dev | grep loop1)
-LOOPIMGT=$(ls /dev | grep loop2)
+LOOPIMGF=/dev/loop3
+LOOPIMGS=/dev/loop1
+LOOPIMGT=/dev/loop2
 ROOTFSPAT=mmcblk0p3
-BOOTIMG=boot.img
+UEFIPAT=mmcblk0p1
 KERNELIMG=kernelpat.img
 IMGNAME=debian.img
 
@@ -13,27 +13,32 @@ losetup --offset=336593920 --sizelimit=2284845568 $LOOPIMGT debian.img
 
 # 映射虚拟文件系统
 
-mkfs.f2fs -l ROOTFS /dev/$LOOPIMGT
-mkfs.vfat -F 32 /dev/$LOOPIMGF
+mkfs.f2fs -l ROOTFS $LOOPIMGT
+mkfs.vfat -F 32 $LOOPIMGF
 
 mkdir $ROOTFSPAT
+mkdir $UEFIPAT
 
-mount /dev/$LOOPIMGT $ROOTFSPAT
+mount $LOOPIMGT $ROOTFSPAT
+
+mount $LOOPIMGF $UEFIPAT
 
 cp -rfp p3/* $ROOTFSPAT
+cp -rfp p1/* $UEFIPAT
 
 sync
 
-umount /dev/$LOOPIMGT
+umount $ROOTFSPAT
 
-dd if=$BOOTIMG of=/dev/$LOOPIMGF
-dd if=$KERNELIMG of=/dev/$LOOPIMGS
+umount $UEFIPAT
+
+dd if=$KERNELIMG of=$LOOPIMGS
 
 sync
 
-losetup --detach /dev/$LOOPIMGT
-losetup --detach /dev/$LOOPIMGF
-losetup --detach /dev/$LOOPIMGS
+losetup --detach $LOOPIMGT
+losetup --detach $LOOPIMGF
+losetup --detach $LOOPIMGS
 
 # 删除映射
 

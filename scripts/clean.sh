@@ -8,4 +8,4 @@ rm -rf mmcblk0p2
 rm -rf mmcblk0p3
 rm -rf tmp
 rm -rf noobs
-rm debian.img
+rm *.img
