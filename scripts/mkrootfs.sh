@@ -38,7 +38,7 @@ LC_ALL=C LANGUAGE=C LANG=C chroot . dpkg --configure -a
 cat /dev/null > root/etc/apt/sources.list
 echo "deb http://mirrors4.tuna.tsinghua.edu.cn/debian buster main" >> root/etc/apt/sources.list
 
-LC_ALL=C LANGUAGE=C LANG=C chroot $ROOTFS apt-get install -y sudo ssh net-tools ethtool wireless-tools network-manager iputils-ping rsyslog alsa-utils bash-completion gnupg busybox kmod --no-install-recommends
+LC_ALL=C LANGUAGE=C LANG=C chroot $ROOTFS apt-get install -y sudo ssh net-tools ethtool wireless-tools network-manager iputils-ping rsyslog alsa-utils gnupg busybox kmod --no-install-recommends
 
 # 换源，默认为清华源
 
@@ -63,7 +63,7 @@ EOF
 
 LC_ALL=C LANGUAGE=C LANG=C chroot $ROOTFS dpkg --add-architecture armhf
 LC_ALL=C LANGUAGE=C LANG=C chroot $ROOTFS apt-get update
-LC_ALL=C LANGUAGE=C LANG=C chroot $ROOTFS apt-get install libc6:armhf
+LC_ALL=C LANGUAGE=C LANG=C chroot $ROOTFS apt-get install libc6:armhf -y
 
 # 开启32位兼容
 
@@ -87,9 +87,11 @@ echo 'raspberrypi' >> $ROOTFS/etc/hostname
 
 # 一遍是你构建使用的主机的hostname，看情况自行修改
 
-#cp files/010_pi-nopassword etc/sudoers.d
+echo "pi ALL=(ALL) NOPASSWD: ALL" >> root/etc/sudoers.d/010_pi-nopassword
 
 # 用户pi免密码执行root命令
+
+
 
 mkdir kernel
 mkdir tmp

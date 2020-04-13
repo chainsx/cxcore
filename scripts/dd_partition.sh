@@ -14,6 +14,7 @@ losetup --offset=336593920 --sizelimit=2284845568 $LOOPIMGT debian.img
 # 映射虚拟文件系统
 
 mkfs.f2fs -l ROOTFS /dev/$LOOPIMGT
+mkfs.vfat -F 32 /dev/$LOOPIMGF
 
 mkdir $ROOTFSPAT
 
